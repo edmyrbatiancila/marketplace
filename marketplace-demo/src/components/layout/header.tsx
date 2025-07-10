@@ -1,13 +1,29 @@
+"use client";
+
 import { Bell, Facebook, Mail, Plus, Search, User, X } from "lucide-react";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { usePageContext } from "@/contexts/PageContexts";
+import { useState } from "react";
 
-const Header = () => {
+interface IHeaderProps {
+    onSearch?: (query: string) => void;
+    // searchQuery?: string;
+}
 
-    const { showCreateMenu, setShowCreateMenu } = usePageContext();
+const Header = ({ onSearch }: IHeaderProps) => {
 
+    const { showCreateMenu, setShowCreateMenu, searchQuery } = usePageContext();
+
+    const [localSearchQuery, setLocalSearchQuery] = useState<string>(searchQuery || '');
+
+    const handleSearchSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (onSearch) {
+            onSearch(localSearchQuery);
+        }
+    };
 
     return (
         <header className="bg-white shadow-sm border-b">
@@ -22,7 +38,6 @@ const Header = () => {
                         </Link>
 
                         {/* Search Bar */}
-                    {onSearch && (
                         <form onSubmit={handleSearchSubmit} className="flex items-center space-x-2">
                             <div className="relative">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -38,7 +53,6 @@ const Header = () => {
                                 Search
                             </Button>
                         </form>
-                    )}
                     </div>
                         
                     <div className="flex items-center space-x-4">

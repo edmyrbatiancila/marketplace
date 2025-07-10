@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
-import { usePathname } from "next/navigation";
-import { PageProvider, usePageContext } from "@/contexts/PageContexts";
+import { PageProvider } from "@/contexts/PageContexts";
+import Sidebar from "@/components/layout/sidebar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -22,9 +22,6 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
-    activeCategory,
-    onSearch,
-    searchQuery
 }: Readonly<{
     children: React.ReactNode;
     activeCategory?: string;
@@ -32,26 +29,29 @@ export default function RootLayout({
     searchQuery?: string;
 }>) {
 
-    const handleSearchSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (onSearch) {
-            onSearch(localSearchQuery);
-        }
-    };
 
     return (
         <html lang="en">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-            <PageProvider>
-                <div className="min-h-screen bg-gray-50">
-                    <Header />
-                </div>
-                {children}
-            </PageProvider>
-            
-        </body>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <PageProvider>
+                    <div className="min-h-screen bg-gray-50">
+                        <Header />
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                            <div className="flex gap-8">
+                                {/* Sidebar */}
+                                <Sidebar />
+                                {/* Mainn content */}
+                                <div className="flex-1">
+                                    { children }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </PageProvider>
+                
+            </body>
         </html>
     );
 }

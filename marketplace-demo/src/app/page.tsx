@@ -1,24 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { MarketplaceLayout } from '@/components/marketplace-layout';
-import { ItemGrid } from '@/components/item-grid';
-import { Listing } from '@/lib/types';
-import { mockAPI } from '@/lib/dummy-data';
+import ItemGrid from "@/components/marketplace/item-grid";
+import { usePageContext } from "@/contexts/PageContexts";
+import { mockAPI } from "@/lib/dummyData";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchListings();
-  }, []);
-
-  useEffect(() => {
-    filterListings();
-  }, [listings, searchQuery]);
+  const { searchQuery, filteredListings, loading, setListings, setLoading, setFilteredListings, listings } = usePageContext();
 
   const fetchListings = async () => {
     try {
@@ -46,30 +35,33 @@ export default function Home() {
     setFilteredListings(filtered);
   };
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  useEffect(() => {
+    filterListings();
+  }, [listings, searchQuery]);
+  
 
   if (loading) {
     return (
-      <MarketplaceLayout>
-        <div className="p-6">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-gray-500">Loading listings...</div>
-          </div>
+      <div className="p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading listings...</div>
         </div>
-      </MarketplaceLayout>
+      </div>
     );
   }
 
+
   return (
-    <MarketplaceLayout onSearch={handleSearch} searchQuery={searchQuery}>
       <div className="p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">
           {searchQuery ? `Search results for "${searchQuery}"` : "Today's picks"}
         </h1>
         {filteredListings.length > 0 ? (
-          <ItemGrid items={filteredListings} />
+          <ItemGrid />
         ) : (
           <div className="text-center py-12">
             <div className="text-gray-500 mb-4">
@@ -83,6 +75,6 @@ export default function Home() {
           </div>
         )}
       </div>
-    </MarketplaceLayout>
+
   );
 }

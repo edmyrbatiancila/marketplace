@@ -5,6 +5,7 @@ Created a Website Marketplace using ReactJS + NextJS + TypeScript + Supabase wit
 
 1. Create UI design for the marketplace website. - In Progress..
     - Create static pages for the marketplace website.
+    - Create App Router for creating, and showing items.
 
 2. Implement the UI design using ReactJS + NextJS + TypeScript.
 
