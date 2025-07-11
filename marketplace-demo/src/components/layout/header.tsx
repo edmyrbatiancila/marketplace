@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { usePageContext } from "@/contexts/PageContexts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface IHeaderProps {
     onSearch?: (query: string) => void;
@@ -13,6 +14,8 @@ interface IHeaderProps {
 }
 
 const Header = ({ onSearch }: IHeaderProps) => {
+
+    const pathname = usePathname();
 
     const { showCreateMenu, setShowCreateMenu, searchQuery } = usePageContext();
 
@@ -24,6 +27,11 @@ const Header = ({ onSearch }: IHeaderProps) => {
             onSearch(localSearchQuery);
         }
     };
+
+    // Close the dropdown menu whenever the route changes
+    useEffect(() => {
+        setShowCreateMenu(false);
+    }, [pathname]);
 
     return (
         <header className="bg-white shadow-sm border-b">
@@ -60,7 +68,7 @@ const Header = ({ onSearch }: IHeaderProps) => {
                             variant="ghost"
                             size="icon"
                             className="relative"
-                            onClick={() => setShowCreateMenu(!showCreateMenu)}
+                            onClick={() => setShowCreateMenu(true)}
                         >
                             <Plus className="w-5 h-5" />
                         </Button>

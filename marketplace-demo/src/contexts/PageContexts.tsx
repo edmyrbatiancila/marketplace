@@ -21,6 +21,8 @@ interface IProps {
     setStep: React.Dispatch<React.SetStateAction<'type' | 'details'>>;
     listingType: ListingType;
     setListingType: React.Dispatch<React.SetStateAction<ListingType>>;
+    activeCategory: string;
+    setActiveCategory: (category: string) => void;
 }
 
 const PageContext = createContext<IProps | undefined>(undefined);
@@ -35,6 +37,7 @@ export const PageProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [step, setStep] = useState<'type' | 'details'>('type');
     const [listingType, setListingType] = useState<ListingType>('item');
+    const [activeCategory, setActiveCategory] = useState<string>('home')
 
     const contextValue: IProps = {
         showCreateMenu,
@@ -52,7 +55,9 @@ export const PageProvider: React.FC<{ children: React.ReactNode }> = ({ children
         step,
         setStep,
         listingType,
-        setListingType
+        setListingType,
+        activeCategory,
+        setActiveCategory
     };
 
     return (

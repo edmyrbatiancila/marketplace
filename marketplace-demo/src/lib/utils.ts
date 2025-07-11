@@ -19,6 +19,7 @@ export const formatTimeAgo = (dateString: string) => {
 
 };
 
+
 export type ListingType = 'item' | 'vehicle' | 'home' | 'multiple';
 
 export const listingTypes = [

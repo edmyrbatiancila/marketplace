@@ -1,3 +1,4 @@
+import ItemDetails from "@/components/item-detail";
 import { mockAPI } from "@/lib/dummyData";
 import { Listing } from "@/lib/types";
 import { notFound } from "next/navigation";
@@ -29,6 +30,6 @@ export default async function ItemPageDetail({ params }: ItemPageDetailProps) {
         notFound();
     }
 
-    return <ItemDetail listing={listing} />;
+    return <ItemDetails listing={listing} />;
 }
 
