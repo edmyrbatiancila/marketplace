@@ -2,13 +2,14 @@
 
 import { Listing, Message } from "@/lib/types";
 import { formatTimeAgo } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { mockAPI } from "@/lib/dummyData";
+import Image from "next/image";
 
 interface ItemDetailsProps {
     listing: Listing;
@@ -22,14 +23,14 @@ const ItemDetails = ({ listing }: ItemDetailsProps) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
 
-    const fetchMessages = async () => {
+    const fetchMessages = useCallback(async () => {
         try {
             const data = await mockAPI.getMessages(listing.id);
             setMessages(data);
         } catch (error) {
-            console.error('Error fetching messages:', error);
+            console.error('Error fetching messages: ', error)
         }
-    };
+    }, [listing.id]);
 
     const handleSendMessage = async () => {
         if (!message.trim() || !buyerName.trim() || !buyerEmail.trim()) {
@@ -69,7 +70,7 @@ const ItemDetails = ({ listing }: ItemDetailsProps) => {
 
     useEffect(() => {
         fetchMessages();
-    }, [listing.id]);
+    }, [fetchMessages]);
 
     return (
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -78,11 +79,19 @@ const ItemDetails = ({ listing }: ItemDetailsProps) => {
                 <div className="lg:w-2/3">
                     <div className="aspect-square bg-blue-100 relative">
                     {listing.image_url ? (
-                        <img
-                            src={listing.image_url}
-                            alt={listing.title}
+                        <Image 
+                            src={ listing.image_url }
+                            alt={ listing.title }
+                            width={ 500 }
+                            height={ 500 }
                             className="w-full h-full object-cover"
+                            unoptimized
                         />
+                        // <img
+                        //     src={listing.image_url}
+                        //     alt={listing.title}
+                        //     className="w-full h-full object-cover"
+                        // />
                     ): (
                         <>
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-200 to-blue-300 opacity-50"></div>

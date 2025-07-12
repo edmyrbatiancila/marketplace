@@ -1,5 +1,6 @@
 import { usePageContext } from "@/contexts/PageContexts";
 import { formatTimeAgo } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 
 
@@ -17,11 +18,19 @@ const ItemGrid = () => {
             >
                 <div className="aspect-square bg-blue-100 relative overflow-hidden">
                 {item.image_url ? (
-                    <img 
-                        src={item.image_url} 
-                        alt={item.title} 
+                    <Image 
+                        src={ item.image_url }
+                        alt={ item.title }
+                        width={ 500 }
+                        height={ 500 }
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                        unoptimized
                     />
+                    // <img 
+                    //     src={item.image_url} 
+                    //     alt={item.title} 
+                    //     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                    // />
                 ) : (
                     <>
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-200 to-blue-300 opacity-50"></div>

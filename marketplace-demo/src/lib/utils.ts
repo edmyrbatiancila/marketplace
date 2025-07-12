@@ -44,3 +44,6 @@ export const listingTypes = [
     description: 'Houses, apartments, and rental properties',
   },
 ];
+
+
+

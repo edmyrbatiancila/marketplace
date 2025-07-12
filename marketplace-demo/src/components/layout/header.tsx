@@ -31,7 +31,7 @@ const Header = ({ onSearch }: IHeaderProps) => {
     // Close the dropdown menu whenever the route changes
     useEffect(() => {
         setShowCreateMenu(false);
-    }, [pathname]);
+    }, [pathname, setShowCreateMenu]);
 
     return (
         <header className="bg-white shadow-sm border-b">

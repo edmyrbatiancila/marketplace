@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { categories } from "@/lib/mock-data";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 const CreateListingFlow = () => {
     const router = useRouter();
@@ -246,11 +247,19 @@ const CreateListingFlow = () => {
                         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                             <div className="aspect-square bg-blue-100 relative">
                             {formData.imageFile ? (
-                                <img
-                                    src={URL.createObjectURL(formData.imageFile)}
+                                <Image 
+                                    src={ URL.createObjectURL(formData.imageFile) }
                                     alt="Preview"
+                                    width={ 500 }
+                                    height={ 500 }
                                     className="w-full h-full object-cover"
+                                    unoptimized
                                 />
+                                // <img
+                                //     src={URL.createObjectURL(formData.imageFile)}
+                                //     alt="Preview"
+                                //     className="w-full h-full object-cover"
+                                // />
                             ) : (
                                 <>
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-200 to-blue-300 opacity-50"></div>

@@ -115,22 +115,22 @@ export const mockListings: Listing[] = [
 
     // Mock messages data
     export const mockMessages: Message[] = [
-    {
-        id: 'm1',
-        listing_id: '1',
-        buyer_email: 'buyer1@example.com',
-        buyer_name: 'Alice Johnson',
-        message: 'Is this bike still available? I\'m very interested!',
-        created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
-    },
-    {
-        id: 'm2',
-        listing_id: '2',
-        buyer_email: 'buyer2@example.com',
-        buyer_name: 'Bob Smith',
-        message: 'Does the camera come with the original box and documentation?',
-        created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 minutes ago
-    },
+        {
+            id: 'm1',
+            listing_id: '1',
+            buyer_email: 'buyer1@example.com',
+            buyer_name: 'Alice Johnson',
+            message: 'Is this bike still available? I\'m very interested!',
+            created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
+        },
+        {
+            id: 'm2',
+            listing_id: '2',
+            buyer_email: 'buyer2@example.com',
+            buyer_name: 'Bob Smith',
+            message: 'Does the camera come with the original box and documentation?',
+            created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 minutes ago
+        },
     ];
 
     // In-memory storage for new listings and messages
@@ -191,6 +191,7 @@ export const mockListings: Listing[] = [
 
     // Image upload simulation
     uploadImage: async (file: File): Promise<string> => {
+        console.log("Simulating upload for the file: ", file)
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate upload delay
         
         // In a real app, this would upload to a storage service

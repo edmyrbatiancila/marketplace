@@ -7,41 +7,84 @@ import { useEffect } from "react";
 
 export default function Home() {
 
-  const { searchQuery, filteredListings, loading, setListings, setLoading, setFilteredListings, listings } = usePageContext();
-
-  const fetchListings = async () => {
-    try {
-      const data = await mockAPI.getListings();
-      setListings(data);
-    } catch (error) {
-      console.error('Error fetching listings:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filterListings = () => {
-    if (!searchQuery.trim()) {
-      setFilteredListings(listings);
-      return;
-    }
-
-    const filtered = listings.filter(listing =>
-      listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      listing.category.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    setFilteredListings(filtered);
-  };
+  const {
+    searchQuery, 
+    filteredListings, 
+    loading, 
+    setListings, 
+    setLoading, 
+    setFilteredListings, 
+    listings 
+  } = usePageContext();
 
   useEffect(() => {
-    fetchListings();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const data = await mockAPI.getListings();
+        setListings(data);
+      } catch (error) {
+        console.error('Error fetching listings', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [setListings, setLoading]);
 
   useEffect(() => {
-    filterListings();
-  }, [listings, searchQuery]);
+    const applyFilters = () => {
+      if (!searchQuery.trim()) {
+        setFilteredListings(listings);
+        return;
+      }
+
+      const filtered = listings.filter(
+        (listing) =>
+          listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          listing.category.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      setFilteredListings(filtered);
+    };
+
+    applyFilters();
+  }, [listings, searchQuery, setFilteredListings]);
+
+  // const fetchListings = async () => {
+  //   try {
+  //     const data = await mockAPI.getListings();
+  //     setListings(data);
+  //   } catch (error) {
+  //     console.error('Error fetching listings:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const filterListings = () => {
+  //   if (!searchQuery.trim()) {
+  //     setFilteredListings(listings);
+  //     return;
+  //   }
+
+  //   const filtered = listings.filter(listing =>
+  //     listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     listing.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     listing.category.toLowerCase().includes(searchQuery.toLowerCase())
+  //   );
+
+  //   setFilteredListings(filtered);
+  // };
+
+  // useEffect(() => {
+  //   fetchListings();
+  // }, []);
+
+  // useEffect(() => {
+  //   filterListings();
+  // }, [listings, searchQuery]);
   
 
   if (loading) {
